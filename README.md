@@ -15,6 +15,17 @@ This project explores **functional connectivity** in the human brain at rest —
 - Default Mode Network (DMN) extraction and visualization
 - Glass brain plots, heatmaps, and chord diagrams for network visualization
 
+## Sample Output
+
+### Functional Connectivity Matrix
+![Connectivity Matrix](figures/connectivity_matrix.png)
+
+### Glass Brain Visualization
+![Glass Brain](figures/glass_brain.png)
+
+### Default Mode Network
+![DMN](figures/dmn_connectivity.png)
+
 ## Installation
 
 ```bash
@@ -22,22 +33,29 @@ git clone https://github.com/cemondri/fMRI-Connectivity-Analyzer.git
 cd fMRI-Connectivity-Analyzer
 pip install -r requirements.txt
 ```
-
 ## Quick Start
+
+The simplest way to run a complete analysis:
+
+```bash
+git clone https://github.com/cemondri/fMRI-Connectivity-Analyzer.git
+cd fMRI-Connectivity-Analyzer
+pip install -r requirements.txt
+python main.py
+```
+
+This downloads sample resting-state fMRI data, computes the connectivity matrix, extracts the Default Mode Network, and saves four figures to `figures/`.
+
+### Programmatic Usage
+
+For more control, use the `ConnectivityAnalyzer` class directly:
 
 ```python
 from src.connectivity import ConnectivityAnalyzer
 
-# Initialize with the Harvard-Oxford atlas
 analyzer = ConnectivityAnalyzer(atlas="harvard-oxford")
-
-# Download a sample resting-state fMRI dataset
 analyzer.fetch_data(n_subjects=1)
-
-# Extract regional time series
 analyzer.extract_time_series()
-
-# Compute the connectivity matrix
 conn_matrix = analyzer.compute_connectivity(method="correlation")
 
 # Apply FDR thresholding
@@ -46,6 +64,8 @@ thresholded = analyzer.threshold_connections(method="fdr", alpha=0.05)
 # Visualize
 analyzer.plot_matrix(conn_matrix, threshold=0.3)
 analyzer.plot_glass_brain(conn_matrix)
+```
+
 ```
 
 ## Project Structure
